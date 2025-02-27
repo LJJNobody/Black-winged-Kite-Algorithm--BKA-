@@ -16,7 +16,6 @@ function [ranks, fronts] = fastNonDominatedSorting(objValues)
     
     % 初始化阶段
     for i = 1:M-1
-        S{i} = [];
         for q = i+1:M
             % 判断支配关系
             dominates = true;
@@ -59,22 +58,22 @@ function [ranks, fronts] = fastNonDominatedSorting(objValues)
     end
     
     % 主循环阶段
-    k = 1;
-    while ~isempty(fronts{k})
+    kk = 1;
+    while ~isempty(fronts{kk})
         Q = [];
-        for i = fronts{k}
+        for i = fronts{kk}
             for q = S{i}
                 N(q) = N(q) - 1;
                 if N(q) == 0
-                    ranks(q) = k + 1;
+                    ranks(q) = kk + 1;
                     Q = [Q, q];
                 end
             end
         end
-        k = k + 1;
-        fronts{k} = Q;
+        kk = kk + 1;
+        fronts{kk} = Q;
     end
     
     % 清理空的前沿
-    fronts = fronts(1:k-1);
+    fronts = fronts(1:kk-1);
 end
