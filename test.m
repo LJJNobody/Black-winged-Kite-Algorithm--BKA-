@@ -2,13 +2,14 @@ clear
 clc
 close all
 
+pop_size=1000;
+gen_size=30;
 % 生成理论Pareto前沿
-x = linspace(0,1,1000)';
-pf = [x, 1 - sqrt(x)];
+pf=generateParetoFront("zdt1",pop_size);
 
 % 运行算法并绘制结果
-pop = rand(1000,30); % 随机生成种群（决策变量）
-[f1, f2] = ZDT("ZDT1",pop);
+pop = rand(pop_size,gen_size); % 随机生成种群（决策变量）
+[f1, f2] = ZDT("zdt1",pop);
 [ranks, fronts] = fastNonDominatedSorting([f1, f2]);
 
 scatter(pf(:,1), pf(:,2), 'k.'); hold on;
