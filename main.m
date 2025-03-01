@@ -6,28 +6,20 @@ clc
 close all
 
 %% 
-pop=30; % Number of search agents
+pop_size=1000; % Number of search agents
 T=500; % Maximum numbef of iterations
-F_name='F6'; % Name of the test function
+F_name='zdt1'; % Name of the test function
 %% 
-for i=1:30
+%for i=1:30
 [lb,ub,dim,fobj]=Functions_details(F_name);% Load details of the selected benchmark function
-[Best_Fitness_BKA,Best_Pos_BKA,Convergence_curve]=BKA(pop,T,lb,ub,dim,fobj);
-%% The Black-winged Kite Algorithm's 30 experiments' mean, standard deviation, best value, and worst value
-BKAmean = mean(Best_Fitness_BKA);
-BKAStd = std(Best_Fitness_BKA);
-BKAbest = min(Best_Fitness_BKA);
-BKAWorst = max(Best_Fitness_BKA);
-BKAResults = [BKAmean,BKAStd,BKAbest,BKAWorst];
-end
-%% figure
-semilogy(1:T,Convergence_curve,'color','r','linewidth',2.5);
-title('Convergence curve');
-xlabel('Iteration');
-ylabel('Best score obtained so far')
-%% Display calculation results
-display(['The best fitness is:', num2str(BKAbest)]);
-display(['The best position is:', num2str(Best_Pos_BKA)]);
+[Best_Pos,Best_Fit]=BKA(pop_size,T,lb,ub,dim,fobj);
+
+pf=generateParetoFront("zdt1",pop_size);
+scatter(pf(:,1), pf(:,2), 'k.'); hold on;
+scatter(Best_Fit(:,1), Best_Fit(:,2), 'ro');
+xlabel("f1"),ylabel("f2");
+legend('True PF', 'Algorithm F1');
+
 
 
 

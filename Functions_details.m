@@ -3,14 +3,14 @@
 % up is the uppper bound: ub=[ub_1,ub_2,...,ub_d]
 % dim is the number of variables (dimension of the problem)
 
-function [lb,ub,dim,fobj] = Functions_details(F)
-d=10;   %%%dim=10,50,500
+function [lb,ub,dim,fobj] = Functions_details(F_name)
+d=30;   %%%dim=10,50,500
 
-switch F
-    case 'F1'
+switch F_name
+    case 'zdt1'
         fobj = @F1;
-        lb=-100;
-        ub=100;
+        lb=0;
+        ub=1;
         dim=d;
         
     case 'F2'
@@ -119,8 +119,14 @@ switch F
 end
 end
 
-function o = F1(x)
-o=sum(x.^2);
+function o= F1(x)
+n = size(x, 2); % 变量维度
+f1 = x(:, 1);    % 所有解的第一个目标
+
+g = 1 + 9/(n-1)*sum(x(:, 2:end), 2);
+h = 1 - sqrt(f1./g);
+f2 = g.*h; % 计算第二个目标
+o=[f1,f2];
 end
    
 

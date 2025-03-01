@@ -7,11 +7,12 @@ function [f1, f2] = ZDT(problem, pop_size)
 
 if nargin < 1, problem = 'zdt1'; end
 
-lb=0;ub=1;dim=30;
-x=unifrnd(lb,ub,pop_size,dim);
 
 n = size(x, 2); % 变量维度
 f1 = x(:, 1);    % 所有解的第一个目标
+
+lb=0;ub=1;dim=30;
+x=unifrnd(lb,ub,pop_size,dim);
 
 switch lower(problem)
     case 'zdt1'
