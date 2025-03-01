@@ -17,7 +17,7 @@
 function [eaPos,eaFit]=BKA(pop_size,T,lb,ub,dim,fobj)
 %% ----------------Initialize the locations of Blue Sheep------------------%
 
-p=0.9;r=rand;ea_size=pop_size/10;
+p=0.9;r=rand;ea_size=pop_size/4;
 XPos=initialization(pop_size,dim,lb,ub);% Initial population
 XFit=fobj(XPos);
 eaPos=[];eaFit=[];

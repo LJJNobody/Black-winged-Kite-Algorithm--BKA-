@@ -4,7 +4,7 @@
 % dim is the number of variables (dimension of the problem)
 
 function [lb,ub,dim,fobj] = Functions_details(F_name)
-d=10;   %%%dim=10,50,500
+d=30;   %%%dim=10,50,500
 
 switch F_name
     case 'zdt1'
@@ -13,13 +13,13 @@ switch F_name
         ub=1;
         dim=d;
         
-    case 'zdt2'
+    case 'F2'
         fobj = @F2;
         lb=0;
         ub=1;
         dim=d;
         
-    case 'zdt3'
+    case 'F3'
         fobj = @F3;
         lb=0;
         ub=1;
@@ -139,16 +139,15 @@ f2 = g.*h; % 计算第二个目标
 o=[f1,f2];
 end
 
-function o= F3(x)
-n = size(x, 2); % 变量维度
-f1 = x(:, 1);    % 所有解的第一个目标
 
-g = 1 + 9/(n-1)*sum(x(:, 2:end), 2);
-h = 1 - sqrt(f1./g)-(f1./g).*sin(10*pi*f1);
-f2 = g.*h; % 计算第二个目标
-o=[f1,f2];
+
+function o = F3(x)
+dim=size(x,2);
+o=0;
+for i=1:dim
+    o=o+sum(x(1:i))^2;
 end
-
+end
 
 
 function o = F4(x)
