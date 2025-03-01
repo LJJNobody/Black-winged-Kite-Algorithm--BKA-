@@ -4,7 +4,7 @@
 % dim is the number of variables (dimension of the problem)
 
 function [lb,ub,dim,fobj] = Functions_details(F_name)
-d=30;   %%%dim=10,50,500
+d=10;   %%%dim=10,50,500
 
 switch F_name
     case 'zdt1'
@@ -13,22 +13,22 @@ switch F_name
         ub=1;
         dim=d;
         
-    case 'F2'
+    case 'zdt2'
         fobj = @F2;
-        lb=-10;
-        ub=10;
+        lb=0;
+        ub=1;
         dim=d;
         
-    case 'F3'
+    case 'zdt3'
         fobj = @F3;
-        lb=-10;
-        ub=10;
+        lb=0;
+        ub=1;
         dim=d;
         
-    case 'F4'
+    case 'dtlz1'
         fobj = @F4;
-        lb=-10;
-        ub=10;
+        lb=0;
+        ub=1;
         dim=d;
         
 
@@ -128,25 +128,37 @@ h = 1 - sqrt(f1./g);
 f2 = g.*h; % 计算第二个目标
 o=[f1,f2];
 end
-   
 
-function o = F2(x)
-o=sum(abs(x))+prod(abs(x));
+function o= F2(x)
+n = size(x, 2); % 变量维度
+f1 = x(:, 1);    % 所有解的第一个目标
+
+g = 1 + 9/(n-1)*sum(x(:, 2:end), 2);
+h = 1 - (f1./g).^2;
+f2 = g.*h; % 计算第二个目标
+o=[f1,f2];
+end
+
+function o= F3(x)
+n = size(x, 2); % 变量维度
+f1 = x(:, 1);    % 所有解的第一个目标
+
+g = 1 + 9/(n-1)*sum(x(:, 2:end), 2);
+h = 1 - sqrt(f1./g)-(f1./g).*sin(10*pi*f1);
+f2 = g.*h; % 计算第二个目标
+o=[f1,f2];
 end
 
 
-function o = F3(x)
-dim=size(x,2);
-o=0;
-for i=1:dim
-    o=o+sum(x(1:i))^2;
-end
+function F = F4(X)
+    M=2;
+    [~, dim] = size(X);
+    k = dim - M + 1;
+    g = 100 * (k + sum((X(:, M:end) - 0.5).^2 - cos(20 * pi * (X(:, M:end) - 0.5)), 2));
+    F = 0.5 * (1 + g) .* cumprod(X(:, 1:M-1), 2);
+    F = [F, 0.5 * (1 + g) .* prod(X(:, 1:M-1), 2) .* (1 - X(:, M-1))];
 end
 
-
-function o = F4(x)
-o=max(abs(x));
-end 
 
 
 function o = F5(x)

@@ -17,7 +17,7 @@
 function [eaPos,eaFit]=BKA(pop_size,T,lb,ub,dim,fobj)
 %% ----------------Initialize the locations of Blue Sheep------------------%
 
-p=0.9;r=rand;ea_size=pop_size/10;
+p=0.9;r=rand;ea_size=pop_size;
 XPos=initialization(pop_size,dim,lb,ub);% Initial population
 XFit=fobj(XPos);
 eaPos=[];eaFit=[];
@@ -54,7 +54,8 @@ for t=1:T
         ss=randi([1,size(eaPos,1)],1);
         r_XFitness=XFit(s,:);
         ori_value = rand(1,dim);cauchy_value = tan((ori_value-0.5)*pi);
-        if(Dominates(XFit(i,:),r_XFitness))
+        %if(Dominates(XFit(i,:),r_XFitness))
+        if(Dominates(eaFit(ss,:),r_XFitness))
             XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (XPos(i,:)-eaPos(ss,:));
         else
             XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (eaPos(ss,:)-m.*XPos(i,:));

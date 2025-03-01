@@ -19,7 +19,12 @@ switch lower(problem)
             h = 1 - f1.^2;
         end
         pf = [f1, h];
-        
+    case {"dtlz1"}
+        M=2;
+        if strcmpi(problem, 'dtlz1')
+            pf = rand(num_points, M);
+            pf = pf ./ sum(pf, 2) * 0.5;
+        end
     otherwise
         error('未实现该问题的Pareto前沿');
 end
