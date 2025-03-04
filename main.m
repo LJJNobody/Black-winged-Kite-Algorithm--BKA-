@@ -6,9 +6,9 @@ clc
 close all
 
 %% 
-pop_size=100; % Number of search agents
+pop_size=1000; % Number of search agents
 T=500; % Maximum numbef of iterations
-F_name='zdt3'; % Name of the test function
+F_name='zdt1'; % Name of the test function
 %% 
 %for i=1:30
 [lb,ub,dim,fobj]=Functions_details(F_name);% Load details of the selected benchmark function

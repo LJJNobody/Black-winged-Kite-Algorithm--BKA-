@@ -26,6 +26,9 @@ for i=fronts{1}
     eaPos=[eaPos;XPos(i,:)];
     eaFit=[eaFit;XFit(i,:)];
 end
+ll=randi([1,size(eaPos,1)],1);
+Leader_Pos=eaPos(ll,:);
+%Leader_Fit=eaFit(ll,:);
 
 %% -------------------Start iteration------------------------------------%
 for t=1:T
@@ -51,13 +54,13 @@ for t=1:T
  
         m=2*sin(r+pi/2);
         s = randi([1,30],1);
-        ss=randi([1,size(eaPos,1)],1);
+        %ss=randi([1,size(eaPos,1)],1);
         r_XFitness=XFit(s,:);
         ori_value = rand(1,dim);cauchy_value = tan((ori_value-0.5)*pi);
         if(Dominates(XFit(i,:),r_XFitness))
-            XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (XPos(i,:)-eaPos(ss,:));
+            XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (XPos(i,:)-Leader_Pos);
         else
-            XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (eaPos(ss,:)-m.*XPos(i,:));
+            XPosNew(i,:)=XPos(i,:)+cauchy_value(:,dim).* (Leader_Pos-m.*XPos(i,:));
         end
         XPosNew(i,:) = max(XPosNew(i,:),lb);XPosNew(i,:) = min(XPosNew(i,:),ub); %%Boundary checking
 %% --------------  Select the optimal fitness value---------%
@@ -71,6 +74,9 @@ for t=1:T
     %% -------Update the optimal Black-winged Kite----------%
     [~,fronts]=fastNonDominatedSorting(XFit);
     front1=fronts{1};
+    ll=randi([1,size(front1,2)],1);
+    Leader_Pos=XPos(ll,:);
+    %Leader_Fit=XFit(ll,:);
     for i=front1
         dominated=[];
         is_dominated=false;
